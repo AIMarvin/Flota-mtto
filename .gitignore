@@ -1,0 +1,36 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+.idea/
+.vscode/
+*.sqlite3
+*.log
+*.db
+
+# Python caches and tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Runtime/app data
+uploads/
+data_imports/
+
+# Local/build artifacts
+dist/
+build/
+*.egg-info/
+
+# Node (if added for tooling/e2e in future)
+node_modules/

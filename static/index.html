@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de Gestión de Mantenimiento de Flota">
+    <meta name="theme-color" content="#2563eb">
+
+    <title>Flota Mantenimiento PWA</title>
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="/static/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/static/img/icons/icon-192.png">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <!-- App Container -->
+    <div id="app">
+        <!-- Global Header -->
+        <header id="main-header" class="main-header">
+            <img src="/static/img/steppi_logo.svg" alt="Steppi" class="header-logo">
+        </header>
+
+        <!-- View content will be injected here by JS router -->
+        <div id="view-container">
+            <div class="loading">Cargando...</div>
+        </div>
+    </div>
+
+    <!-- Order Modal (for create and detail) -->
+    <div id="order-modal" class="modal hidden">
+        <div class="modal-content" id="order-modal-content">
+            <!-- Content injected by JS -->
+        </div>
+    </div>
+
+    <!-- Unit Modal -->
+    <div id="unit-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeUnitModal()">×</span>
+            <h2>🚛 Nueva Unidad</h2>
+            <form id="create-unit-form" onsubmit="submitCreateUnit(event)">
+                <div class="form-group">
+                    <label>Número Económico *</label>
+                    <input type="text" name="eco_number" required placeholder="Ej: ECO-005">
+                </div>
+                <div class="form-group">
+                    <label>Modelo</label>
+                    <input type="text" name="model" placeholder="Ej: Volvo 9700">
+                </div>
+                <div class="form-group">
+                    <label>VIN (Serie)</label>
+                    <input type="text" name="vin" placeholder="Serie del chasis">
+                </div>
+                <!-- Status is OPERATIVA by default -->
+                <button type="submit" class="btn btn-primary btn-block">Registrar Unidad</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Unit Detail Modal -->
+    <div id="unit-detail-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header"
+                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <h2 style="margin:0;">🚛 Detalle de Unidad</h2>
+                <span class="close-btn" onclick="closeUnitDetailModal()"
+                    style="cursor:pointer; font-size:1.5rem;">×</span>
+            </div>
+            <div id="unit-detail-body">
+                <p class="loading">Cargando...</p>
+            </div>
+            <div style="margin-top: 2rem; border-top: 1px solid #eee; padding-top: 1rem; text-align: right;">
+                <button id="btn-delete-unit" class="btn btn-danger btn-sm">🗑️ Eliminar Unidad</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation (visible only when logged in) -->
+    <nav id="bottom-nav" class="bottom-nav hidden">
+        <button data-view="dashboard" class="nav-item active">
+            <span class="icon">📊</span>
+            <span class="label">Dashboard</span>
+        </button>
+        <button data-view="orders" class="nav-item">
+            <span class="icon">📋</span>
+            <span class="label">Órdenes</span>
+        </button>
+        <button data-view="checklist" class="nav-item">
+            <span class="icon">✓</span>
+            <span class="label">Checklist</span>
+        </button>
+        <button data-view="profile" class="nav-item">
+            <span class="icon">👤</span>
+            <span class="label">Perfil</span>
+        </button>
+    </nav>
+
+    <!-- Scripts -->
+    <!-- Scripts -->
+    <script src="/static/js/db.js"></script>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/compressor.js"></script>
+    <script src="/static/js/sync.js"></script>
+
+    <!-- Modular Views -->
+    <script src="/static/js/views/dashboard.js"></script>
+    <script src="/static/js/views/orders.js"></script>
+    <script src="/static/js/views/checklist.js"></script>
+    <script src="/static/js/views/flota.js"></script>
+    <script src="/static/js/views/users.js"></script>
+    <script src="/static/js/views/audit.js"></script>
+    <script src="/static/js/views/warehouse.js"></script>
+    <script src="/static/js/views/tires.js"></script>
+    <script src="/static/js/views/ai.js"></script>
+
+    <script src="/static/js/roles.js"></script>
+    <script src="/static/js/modals.js"></script>
+    <script src="/static/js/app.js"></script>
+
+    <!-- Register Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/sw.js')
+                    .then(reg => console.log('✅ Service Worker registered:', reg.scope))
+                    .catch(err => console.error('❌ Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+
+</html>
