@@ -50,20 +50,22 @@ def existing_tables(conn) -> set[str]:
 
 
 def reset_sequences(conn, table_name: str) -> None:
-    id_exists = conn.execute(
+    id_col = conn.execute(
         text(
             """
-            SELECT 1
+            SELECT data_type
             FROM information_schema.columns
             WHERE table_schema = 'public'
               AND table_name = :table
               AND column_name = 'id'
-            LIMIT 1
             """
         ),
         {"table": table_name},
     ).fetchone()
-    if not id_exists:
+    if not id_col:
+        return
+
+    if id_col[0] not in {"integer", "bigint", "smallint"}:
         return
 
     conn.execute(
