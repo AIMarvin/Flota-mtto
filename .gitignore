@@ -25,7 +25,10 @@ Thumbs.db
 
 # Runtime/app data
 uploads/
-data_imports/
+data_imports/*
+!data_imports/Servicios.xlsx
+!data_imports/Llantas.xlsx
+!data_imports/USER_DRIVERS.csv
 
 # Local/build artifacts
 dist/
