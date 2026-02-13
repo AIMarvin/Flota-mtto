@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
+from pathlib import Path
 from app.core.config import settings
 from app.api.v1 import api_router
 from app.db.session import engine
@@ -48,6 +49,8 @@ app.include_router(api_router, prefix=settings.API_V1_STR)
 
 # Mount static files for PWA
 app.mount("/static", StaticFiles(directory="static"), name="static")
+# Ensure local uploads directory exists for environments without persistent disk provisioning.
+Path("uploads").mkdir(parents=True, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 from fastapi.responses import RedirectResponse
